@@ -1,0 +1,14 @@
+<Alloy>
+	<TabGroup>
+		<Tab id="tvl" title="Label">
+			<Window class="container">
+				<Label id="label" onClick="doClick">Hello, World</Label>
+			</Window>
+		</Tab>
+		<Tab id="tvt" title="My Tweets">
+			<Window id="tvw" title="Tweets">
+				<Widget src="nl.fokkezb.tweetsView" id="tv" q="my search" />
+			</Window>
+		</Tab>
+	</TabGroup>
+</Alloy>
