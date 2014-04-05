@@ -9,10 +9,10 @@ var options = {
 
 var height = 50,
 	attached = false,
-	hidden = true,
 	pulling = false,
 	pulled = false,
 	loading = false,
+	released = false,
 	offset = 0;
 
 // delete special args
@@ -31,11 +31,13 @@ if (__parentSymbol) {
 function show(msg) {
 
 	if (!attached || pulled) {
+		//TODO
+		Ti.API.info("show false");
 		return false;
 	}
 
 	pulled = true;
-	hidden = false;
+	released = false;
 
 	$.view.ptrText.text = msg || options.msgUpdating;
 	$.view.ptrArrow.opacity = 0;
@@ -44,17 +46,26 @@ function show(msg) {
 
 	if (OS_IOS) {
 
-		__parentSymbol.setContentInsets({
-			top: options.top + height
-		}, {
-			animated: true
+		// __parentSymbol.setContentInsets({
+			// top: options.top + height
+		// }, {
+			// animated: true
+		// });
+// 		
+		__parentSymbol.scrollToTop(options.top + height, {
+			animated: true,
+			duration: 250
 		});
 
 	} else {
-		__parentSymbol.animate({
-			top: 0
+		__parentSymbol.scrollToTop(0, {
+			animated: true,
+			duration: 250
 		});
 	}
+	
+	//TODO
+	Ti.API.info("show true");
 
 	return true;
 }
@@ -62,6 +73,8 @@ function show(msg) {
 function hide() {
 
 	if (!attached || !pulled) {
+		//TODO
+		Ti.API.info("hide false");
 		return false;
 	}
 
@@ -72,27 +85,34 @@ function hide() {
 
 	if (OS_IOS) {
 
-		__parentSymbol.setContentInsets({
-			top: options.top
-		}, {
-			animated: true,
-			duration: 250
-		});
+		// __parentSymbol.setContentInsets({
+			// top: options.top
+		// }, {
+			// animated: true,
+			// duration: 250
+		// });
 
+		__parentSymbol.scrollToTop(options.top, {animated: true, duration: 250});
 	} else {
-		__parentSymbol.animate({
-			top: 0 - height,
-			duration: 250
-		});
+		// __parentSymbol.animate({
+			// top: 0 + height,
+			// duration: 2500
+		// });
+		
+		__parentSymbol.scrollToTop(1, {animated: true, duration: 250});
 	}
 
-	setTimeout(function () {
-		$.view.prtCenter.hide();
-	}, 250);
+	// setTimeout(function () {
+		// $.view.prtCenter.hide();
+		// //TODO
+		// Ti.API.info("hide timeout true");
+	// }, 2500);
 
-	hidden = true;
 	pulled = false;
 	loading = false;
+	
+	//TODO
+	Ti.API.info("hide true");
 
 	return true;
 }
@@ -100,6 +120,8 @@ function hide() {
 function refresh() {
 
 	if (!attached || loading) {
+		//TODO
+		Ti.API.info("refresh false");
 		return false;
 	}
 
@@ -110,6 +132,9 @@ function refresh() {
 	$.trigger('release', {
 		hide: hide
 	});
+	
+	//TODO
+	Ti.API.info("refresh true");
 
 	return true;
 }
@@ -118,8 +143,13 @@ function scrollListener(e) {
 
 	// Closes #17
 	if (e.source !== __parentSymbol) {
+		//TODO
+		Ti.API.info("scroll false");
 		return;
 	}
+	
+	//TODO
+	Ti.API.info("scroll true");
 
 	if (OS_IOS) {
 
@@ -129,24 +159,12 @@ function scrollListener(e) {
 
 		offset = e.contentOffset.y;
 
-		if (offset >= 0 - options.top) {
-
-			if (!hidden) {
-				$.view.prtCenter.hide();
-				hidden = true;
-			}
-
-		} else if (hidden) {
-			$.view.prtCenter.show();
-			hidden = false;
-		}
-
 		if (pulling && !loading && offset > 0 - options.top - height) {
 			pulling = false;
 			var unrotate = Ti.UI.create2DMatrix();
 			$.view.ptrArrow.animate({
 				transform: unrotate,
-				duration: 180
+				duration: 1800
 			});
 			$.view.ptrText.text = options.msgPull;
 
@@ -162,6 +180,42 @@ function scrollListener(e) {
 
 	} else {
 		offset = e.firstVisibleItem;
+		//TODO
+		Ti.API.info("offset = " + offset);
+		
+		if (pulled) {
+			return;
+		}
+
+		if (offset > 0){
+			pulling = true;
+		}
+		
+		if (pulling && !loading && offset == 0) {
+			//TODO
+			Ti.API.info("pull to refresh");
+			
+			var unrotate = Ti.UI.create2DMatrix();
+			$.view.ptrArrow.animate({
+				transform: unrotate,
+				duration: 180
+			});
+			$.view.ptrText.text = options.msgPull;
+			
+			setTimeout(function(){pulling = false;}, 180);
+
+		} else if (!pulling && !loading && offset <= 0) {
+			//TODO
+			Ti.API.info("release to refresh");
+			pulling = true;
+			released = true;
+			var rotate = Ti.UI.create2DMatrix().rotate(180);
+			$.view.ptrArrow.animate({
+				transform: rotate,
+				duration: 180
+			});
+			$.view.ptrText.text = options.msgRelease;
+		}
 	}
 
 	return;
@@ -171,11 +225,18 @@ function dragEndListener(e) {
 
 	// Closes #17
 	if (e.source !== __parentSymbol) {
+		//TODO
+		Ti.API.info("drag end false");
 		return;
 	}
 
 	if (!pulled && pulling && !loading && offset <= 0 - options.top - height) {
 		pulling = false;
+		
+		//TODO
+		Ti.API.info("drag end true");
+		//TODO
+		Ti.API.info("offset = " + offset + " options.top = " + options.top + " height = " + height);
 
 		refresh();
 	}
@@ -184,8 +245,10 @@ function dragEndListener(e) {
 }
 
 function swipeListener(e) {
-
-	if (offset === 0 && e.direction === 'down') {
+	Ti.API.info("swipe offset = " + offset + " direction = " + e.direction);
+	if ((offset === 0 && e.direction === 'down') || released) {
+		//TODO
+		Ti.API.info("swipe true");
 		refresh();
 	}
 
@@ -214,10 +277,17 @@ function attach() {
 }
 
 function init(_table) {
-
+	//TODO
+	Ti.API.info("init true");
+	
 	// Override __parentSymbol
 	if (_table) {
+		//TODO
+		Ti.API.info("init __parentSymbol true");
 		__parentSymbol = _table;
+	}
+	else{
+		return;
 	}
 	__parentSymbol.addEventListener('scroll', scrollListener);
 	height = $.view.ptr.height;
@@ -232,13 +302,14 @@ function init(_table) {
 		__parentSymbol.addEventListener('dragEnd', dragEndListener);
 
 	} else {
-		__parentSymbol.top = 0 - height;
+		__parentSymbol.scrollToTop(0, {animated: true});
 
 		__parentSymbol.addEventListener('swipe', swipeListener);
 	}
 
 	$.view.ptrText.text = options.msgPull;
-
+	$.view.prtCenter.show();
+	
 	return;
 }
 

@@ -7,6 +7,7 @@ function WPATH(s) {
 function Controller() {
     function doInit(opts) {
         _.extend(options, opts);
+        $.ptr.init($.tableView);
         pullController = $.ptr;
         false !== options.opener ? $.tableView.addEventListener("click", onTableViewClick) : $.tableView.allowsSelection = false;
         tweets = Widget.createCollection("tweet");

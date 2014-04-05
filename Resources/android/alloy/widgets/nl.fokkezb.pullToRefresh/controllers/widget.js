@@ -6,52 +6,95 @@ function WPATH(s) {
 
 function Controller() {
     function show(msg) {
-        if (!attached || pulled) return false;
+        if (!attached || pulled) {
+            Ti.API.info("show false");
+            return false;
+        }
         pulled = true;
-        hidden = false;
+        released = false;
         $.view.ptrText.text = msg || options.msgUpdating;
         $.view.ptrArrow.opacity = 0;
         $.view.ptrIndicator.show();
         $.view.prtCenter.show();
-        __parentSymbol.animate({
-            top: 0
+        __parentSymbol.scrollToTop(0, {
+            animated: true,
+            duration: 250
         });
+        Ti.API.info("show true");
         return true;
     }
     function hide() {
-        if (!attached || !pulled) return false;
+        if (!attached || !pulled) {
+            Ti.API.info("hide false");
+            return false;
+        }
         $.view.ptrIndicator.hide();
         $.view.ptrArrow.transform = Ti.UI.create2DMatrix();
         $.view.ptrArrow.opacity = 1;
         $.view.ptrText.text = options.msgPull;
-        __parentSymbol.animate({
-            top: 0 - height,
+        __parentSymbol.scrollToTop(1, {
+            animated: true,
             duration: 250
         });
-        setTimeout(function() {
-            $.view.prtCenter.hide();
-        }, 250);
-        hidden = true;
         pulled = false;
         loading = false;
+        Ti.API.info("hide true");
         return true;
     }
     function refresh() {
-        if (!attached || loading) return false;
+        if (!attached || loading) {
+            Ti.API.info("refresh false");
+            return false;
+        }
         loading = true;
         show();
         $.trigger("release", {
             hide: hide
         });
+        Ti.API.info("refresh true");
         return true;
     }
     function scrollListener(e) {
-        if (e.source !== __parentSymbol) return;
+        if (e.source !== __parentSymbol) {
+            Ti.API.info("scroll false");
+            return;
+        }
+        Ti.API.info("scroll true");
+        var unrotate;
+        var rotate;
         offset = e.firstVisibleItem;
+        Ti.API.info("offset = " + offset);
+        if (pulled) return;
+        if (pulling && !loading && !released && offset > 0) {
+            Ti.API.info("pull to refresh");
+            var unrotate = Ti.UI.create2DMatrix();
+            $.view.ptrArrow.animate({
+                transform: unrotate,
+                duration: 180
+            });
+            $.view.ptrText.text = options.msgPull;
+            setTimeout(function() {
+                pulling = false;
+            }, 180);
+        } else if (!pulling && !loading && 0 >= offset) {
+            Ti.API.info("release to refresh");
+            pulling = true;
+            released = true;
+            var rotate = Ti.UI.create2DMatrix().rotate(180);
+            $.view.ptrArrow.animate({
+                transform: rotate,
+                duration: 180
+            });
+            $.view.ptrText.text = options.msgRelease;
+        }
         return;
     }
     function swipeListener(e) {
-        0 === offset && "down" === e.direction && refresh();
+        Ti.API.info("swipe offset = " + offset + " direction = " + e.direction);
+        if (0 === offset && "down" === e.direction || released) {
+            Ti.API.info("swipe true");
+            refresh();
+        }
         return;
     }
     function setOptions(_options) {
@@ -64,7 +107,10 @@ function Controller() {
         return true;
     }
     function init(_table) {
-        _table && (__parentSymbol = _table);
+        Ti.API.info("init true");
+        if (!_table) return;
+        Ti.API.info("init __parentSymbol true");
+        __parentSymbol = _table;
         __parentSymbol.addEventListener("scroll", scrollListener);
         height = $.view.ptr.height;
         attached = true;
@@ -72,9 +118,12 @@ function Controller() {
         pulled = false;
         loading = false;
         offset = 0;
-        __parentSymbol.top = 0 - height;
+        __parentSymbol.scrollToTop(0, {
+            animated: true
+        });
         __parentSymbol.addEventListener("swipe", swipeListener);
         $.view.ptrText.text = options.msgPull;
+        $.view.prtCenter.show();
         return;
     }
     function dettach() {
@@ -112,7 +161,7 @@ function Controller() {
         msgUpdating: L("ptrUpating", "Updating..."),
         top: 0
     };
-    var height = 50, attached = false, hidden = true, pulling = false, pulled = false, loading = false, offset = 0;
+    var height = 50, attached = false, pulling = false, pulled = false, loading = false, released = false, offset = 0;
     delete args.__parentSymbol;
     delete args.__itemTemplate;
     delete args.$model;

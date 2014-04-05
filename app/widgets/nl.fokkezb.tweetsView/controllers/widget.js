@@ -18,6 +18,7 @@ function doInit(opts) {
 	// table: $.tableView,
 	// loader: doRefresh
 	// });
+	$.ptr.init($.tableView);
 	pullController = $.ptr;
 
 	if (options.opener !== false) {
