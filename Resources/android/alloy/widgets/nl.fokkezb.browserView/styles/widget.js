@@ -6,7 +6,7 @@ function WPATH(s) {
 
 module.exports = [ {
     isId: true,
-    priority: 100000.0024,
+    priority: 100000.0025,
     key: "action",
     style: {
         systemButton: Ti.UI.iPhone.SystemButton.ACTION

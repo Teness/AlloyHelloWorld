@@ -85,7 +85,8 @@ function Controller() {
     $.name.text = args.get("userId");
     $.time.text = prettyDate(args.get("createdAt").toString());
     $.text.text = args.get("content");
-    $.row.data = args;
+    $.row.data = JSON.stringify(args);
+    Ti.API.info("tweet row loaded");
     _.extend($, exports);
 }
 

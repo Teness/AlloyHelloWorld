@@ -9,5 +9,8 @@
 			<Label id="text" />
 			<Label id="time" />
 		</View>
+		<TableView id="tableView">
+	 		<Widget id="isComment" src="nl.fokkezb.infiniteScroll" onEnd="onEndCommentLoader" />
+ 		</TableView>
 	</Window>
 </Alloy>

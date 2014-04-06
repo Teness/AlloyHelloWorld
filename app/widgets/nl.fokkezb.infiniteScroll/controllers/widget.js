@@ -103,7 +103,6 @@ function load() {
 }
 
 function onScroll(e) {
-	
 	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
 		return;
 	}
@@ -111,7 +110,6 @@ function onScroll(e) {
 	var triggerLoad;
 
 	if (OS_ANDROID) {
-
 		// last item shown
 		triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
 

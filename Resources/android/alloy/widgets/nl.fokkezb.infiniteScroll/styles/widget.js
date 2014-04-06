@@ -6,7 +6,7 @@ function WPATH(s) {
 
 module.exports = [ {
     isClass: true,
-    priority: 10000.0025,
+    priority: 10000.0026,
     key: "is",
     style: {
         top: "0dp",
@@ -15,7 +15,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0026,
+    priority: 10000.0027,
     key: "isCenter",
     style: {
         height: "50dp",
@@ -23,14 +23,14 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0027,
+    priority: 10000.0028,
     key: "isIndicator",
     style: {
         style: Ti.UI.ActivityIndicatorStyle.DARK
     }
 }, {
     isClass: true,
-    priority: 10000.0029,
+    priority: 10000.003,
     key: "isText",
     style: {
         wordWrap: false,

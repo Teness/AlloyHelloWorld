@@ -111,4 +111,14 @@ module.exports = [ {
         },
         backgroundColor: "#ffffff"
     }
+}, {
+    isId: true,
+    priority: 100000.001,
+    key: "tableView",
+    style: {
+        top: 140,
+        right: 10,
+        bottom: 0,
+        left: 10
+    }
 } ];

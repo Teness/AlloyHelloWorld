@@ -6,7 +6,7 @@ function WPATH(s) {
 
 module.exports = [ {
     isApi: true,
-    priority: 1000.001,
+    priority: 1000.0011,
     key: "TableViewRow",
     style: {
         bottom: 10,
@@ -14,7 +14,7 @@ module.exports = [ {
     }
 }, {
     isApi: true,
-    priority: 1000.0011,
+    priority: 1000.0012,
     key: "Label",
     style: {
         font: {
@@ -24,7 +24,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0012,
+    priority: 100000.0013,
     key: "image",
     style: {
         top: 10,
@@ -37,7 +37,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0013,
+    priority: 100000.0014,
     key: "name",
     style: {
         top: 10,
@@ -53,7 +53,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0014,
+    priority: 100000.0015,
     key: "time",
     style: {
         top: 10,
@@ -65,7 +65,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0015,
+    priority: 100000.0016,
     key: "text",
     style: {
         top: 25,

@@ -6,7 +6,7 @@ function WPATH(s) {
 
 module.exports = [ {
     isApi: true,
-    priority: 1000.0016,
+    priority: 1000.0017,
     key: "TableView",
     style: {
         backgroundColor: "#ffffff"

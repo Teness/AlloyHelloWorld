@@ -164,7 +164,7 @@ function scrollListener(e) {
 			var unrotate = Ti.UI.create2DMatrix();
 			$.view.ptrArrow.animate({
 				transform: unrotate,
-				duration: 1800
+				duration: 180
 			});
 			$.view.ptrText.text = options.msgPull;
 
@@ -191,7 +191,7 @@ function scrollListener(e) {
 			pulling = true;
 		}
 		
-		if (pulling && !loading && offset == 0) {
+		if (pulling && !loading && !released && offset == 0) {
 			//TODO
 			Ti.API.info("pull to refresh");
 			

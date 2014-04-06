@@ -65,7 +65,20 @@ function Controller() {
         offset = e.firstVisibleItem;
         Ti.API.info("offset = " + offset);
         if (pulled) return;
-        if (pulling && !loading && !released && offset > 0) {
+        offset > 0 && (pulling = true);
+        if (!pulling || loading || released || 0 != offset) {
+            if (!pulling && !loading && 0 >= offset) {
+                Ti.API.info("release to refresh");
+                pulling = true;
+                released = true;
+                var rotate = Ti.UI.create2DMatrix().rotate(180);
+                $.view.ptrArrow.animate({
+                    transform: rotate,
+                    duration: 180
+                });
+                $.view.ptrText.text = options.msgRelease;
+            }
+        } else {
             Ti.API.info("pull to refresh");
             var unrotate = Ti.UI.create2DMatrix();
             $.view.ptrArrow.animate({
@@ -76,16 +89,6 @@ function Controller() {
             setTimeout(function() {
                 pulling = false;
             }, 180);
-        } else if (!pulling && !loading && 0 >= offset) {
-            Ti.API.info("release to refresh");
-            pulling = true;
-            released = true;
-            var rotate = Ti.UI.create2DMatrix().rotate(180);
-            $.view.ptrArrow.animate({
-                transform: rotate,
-                duration: 180
-            });
-            $.view.ptrText.text = options.msgRelease;
         }
         return;
     }

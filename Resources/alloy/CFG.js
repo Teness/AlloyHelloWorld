@@ -1,1 +1,5 @@
-module.exports={"dependencies":{"nl.fokkezb.tweetsView":"1.0"}};
+module.exports = {
+    dependencies: {
+        "nl.fokkezb.tweetsView": "1.0"
+    }
+};

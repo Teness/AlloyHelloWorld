@@ -79,3 +79,7 @@
 	
 	backgroundColor: '#ffffff'
 }
+
+'#tableView':{
+	top: 140, right: 10, bottom: 0, left: 10
+}

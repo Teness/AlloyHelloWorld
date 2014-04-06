@@ -6,7 +6,7 @@ function WPATH(s) {
 
 module.exports = [ {
     isClass: true,
-    priority: 10000.0017,
+    priority: 10000.0018,
     key: "ptr",
     style: {
         width: Ti.UI.FILL,
@@ -15,7 +15,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0018,
+    priority: 10000.0019,
     key: "ptrCenter",
     style: {
         bottom: 11,
@@ -25,7 +25,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0019,
+    priority: 10000.002,
     key: "ptrArrow",
     style: {
         left: 8,
@@ -35,7 +35,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.002,
+    priority: 10000.0021,
     key: "ptrIndicator",
     style: {
         left: 0,
@@ -43,7 +43,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0022,
+    priority: 10000.0023,
     key: "ptrText",
     style: {
         left: 30,
@@ -55,7 +55,7 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0023,
+    priority: 10000.0024,
     key: "ptrLine",
     style: {
         bottom: 0,

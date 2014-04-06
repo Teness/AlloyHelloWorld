@@ -5,15 +5,36 @@ function WPATH(s) {
 }
 
 function Controller() {
-    new (require("alloy/widget"))("nl.fokkezb.tweetsView");
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function onEndCommentLoader(e) {
+        setTimeout(function() {
+            Ti.API.info("onEndLoading");
+            var tempComments = Widget.createCollection("comment");
+            tempComments.fetch();
+            var id = getRandomInt(1, 8);
+            Ti.API.info("add comment " + id);
+            tempComments = tempComments.filter(function(comment) {
+                return comment.get("id") == id;
+            });
+            tempComments.map(function(comment) {
+                data.push(Alloy.createWidget("nl.fokkezb.tweetsView", "row", comment).getView());
+            });
+            $.tableView.setData(data);
+            e.success();
+        }, 1e3);
+    }
+    var Widget = new (require("alloy/widget"))("nl.fokkezb.tweetsView");
     this.__widgetId = "nl.fokkezb.tweetsView";
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "detail";
-    arguments[0] ? arguments[0]["__parentSymbol"] : null;
+    var __parentSymbol = arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
+    var __defers = {};
     $.__views.window = Ti.UI.createWindow({
         title: "Tweet",
         backgroundColor: "#e2e3e4",
@@ -105,17 +126,43 @@ function Controller() {
         id: "time"
     });
     $.__views.wrapper.add($.__views.time);
+    $.__views.isComment = Alloy.createWidget("nl.fokkezb.infiniteScroll", "widget", {
+        id: "isComment",
+        __parentSymbol: __parentSymbol
+    });
+    onEndCommentLoader ? $.__views.isComment.on("end", onEndCommentLoader) : __defers["$.__views.isComment!end!onEndCommentLoader"] = true;
+    $.__views.tableView = Ti.UI.createTableView({
+        top: 140,
+        right: 10,
+        bottom: 0,
+        left: 10,
+        footerView: $.__views.isComment.getProxyPropertyEx("footerView", {
+            recurse: true
+        }),
+        id: "tableView"
+    });
+    $.__views.window.add($.__views.tableView);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    args.get("content");
-    var date = args.get("createdAt");
-    Ti.API.info("detail window: " + args.get("content") + date.toLocaleString());
-    $.image.image = args.get("image");
+    var tweet = args.content;
+    var date = new Date(args.createdAt);
+    Ti.API.info("detail window: " + tweet + date);
+    $.image.image = args.image;
     $.name.text = "name";
-    $.user.text = "userId:" + args.get("userId");
-    $.text.text = args.get("content");
-    $.time.text = date.toLocaleString();
+    $.user.text = "userId:" + args.userId;
+    $.text.text = tweet;
+    $.time.text = date.toLocaleDateString();
+    var data = [];
+    var comments = Widget.createCollection("comment");
+    comments.fetch();
+    Ti.API.info("comments: " + comments.length);
+    comments.map(function(comment) {
+        data.push(Alloy.createWidget("nl.fokkezb.tweetsView", "row", comment).getView());
+    });
+    $.tableView.setData(data);
+    $.isComment.init($.tableView);
+    __defers["$.__views.isComment!end!onEndCommentLoader"] && $.__views.isComment.on("end", onEndCommentLoader);
     _.extend($, exports);
 }
 

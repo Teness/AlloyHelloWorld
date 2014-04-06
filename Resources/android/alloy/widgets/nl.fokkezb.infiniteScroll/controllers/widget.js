@@ -50,8 +50,10 @@ function Controller() {
         return true;
     }
     function onScroll(e) {
+        Ti.API.info("api = " + e.source.apiName);
         if (e.source.apiName && "Ti.UI.TableView" !== e.source.apiName) return;
         var triggerLoad;
+        Ti.API.info("position = " + position + " first = " + e.firstVisibleItem + " total = " + e.totalItemCount);
         triggerLoad = position && e.firstVisibleItem >= position && e.totalItemCount <= e.firstVisibleItem + e.visibleItemCount;
         position = e.firstVisibleItem;
         triggerLoad && load();
