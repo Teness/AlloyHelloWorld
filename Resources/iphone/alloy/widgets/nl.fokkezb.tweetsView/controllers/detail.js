@@ -108,14 +108,14 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    args.get("content");
-    var date = args.get("createdAt");
-    Ti.API.info("detail window: " + args.get("content") + date.toLocaleString());
-    $.image.image = args.get("image");
+    var tweet = args.content;
+    var date = args.createdAt;
+    Ti.API.info("detail window: " + tweet + date);
+    $.image.image = args.image;
     $.name.text = "name";
-    $.user.text = "userId:" + args.get("userId");
-    $.text.text = args.get("content");
-    $.time.text = date.toLocaleString();
+    $.user.text = "userId:" + args.userId;
+    $.text.text = tweet;
+    $.time.text = date;
     _.extend($, exports);
 }
 

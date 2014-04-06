@@ -1,13 +1,13 @@
 var args = arguments[0] || {};
 
-var tweet = args.get('content');
+var tweet = args.content;
 
-var date = args.get('createdAt');
+var date = args.createdAt;
 
-Ti.API.info('detail window: ' + args.get('content') + date.toLocaleString());
+Ti.API.info('detail window: ' + tweet + date);
 
-$.image.image = args.get('image');
+$.image.image = args.image;
 $.name.text = 'name';
-$.user.text = 'userId:' + args.get('userId');
-$.text.text = args.get('content');
-$.time.text = date.toLocaleString();
+$.user.text = 'userId:' + args.userId;
+$.text.text = tweet;
+$.time.text = date;

@@ -26,8 +26,9 @@ function Controller() {
     }
     function onTableViewClick(e) {
         Ti.API.info("onTableViewClick");
-        Ti.API.info(e.row.data.get("content"));
-        var win = Alloy.createWidget("nl.fokkezb.tweetsView", "detail", e.row.data).getView();
+        var obj = JSON.parse(e.row.data);
+        Ti.API.info(obj.content);
+        var win = Alloy.createWidget("nl.fokkezb.tweetsView", "detail", obj).getView();
         Ti.API.info("create tweetsView");
         Ti.App.addEventListener("tweetsView:click", onTweetClick);
         win.addEventListener("close", function() {
