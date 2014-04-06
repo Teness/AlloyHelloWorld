@@ -52,10 +52,10 @@ function show(msg) {
 			// animated: true
 		// });
 // 		
-		__parentSymbol.scrollToTop(options.top + height, {
-			animated: true,
-			duration: 250
-		});
+		// __parentSymbol.scrollToTop(options.top + height, {
+			// animated: true,
+			// duration: 250
+		// });
 
 	} else {
 		__parentSymbol.scrollToTop(0, {

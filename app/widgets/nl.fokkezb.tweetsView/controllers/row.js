@@ -27,4 +27,5 @@ $.image.image = args.get('image');
 $.name.text = args.get('userId');
 $.time.text = prettyDate(args.get('createdAt').toString());
 $.text.text = args.get('content');
-$.row.data = args;
+//$.row.data = args;
+Ti.API.info('tweet row loaded');
