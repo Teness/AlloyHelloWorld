@@ -25,6 +25,7 @@ comments.map(function(comment) {
 // TableView object in the view with id = 'table'
 $.tableView.setData(data); 
 
+$.ptr.init($.tableView);
 $.isComment.init($.tableView);
 
 /**
@@ -33,6 +34,10 @@ $.isComment.init($.tableView);
  */
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function myLoader(e){
+	
 }
 
 function onEndCommentLoader(e) {

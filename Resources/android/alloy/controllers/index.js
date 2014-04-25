@@ -10,10 +10,10 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    var __alloyId9 = [];
-    $.__views.__alloyId10 = Ti.UI.createWindow({
+    var __alloyId13 = [];
+    $.__views.__alloyId14 = Ti.UI.createWindow({
         backgroundColor: "white",
-        id: "__alloyId10"
+        id: "__alloyId14"
     });
     $.__views.label = Ti.UI.createLabel({
         width: Ti.UI.SIZE,
@@ -22,14 +22,14 @@ function Controller() {
         text: "Hello, World",
         id: "label"
     });
-    $.__views.__alloyId10.add($.__views.label);
+    $.__views.__alloyId14.add($.__views.label);
     doClick ? $.__views.label.addEventListener("click", doClick) : __defers["$.__views.label!click!doClick"] = true;
     $.__views.tvl = Ti.UI.createTab({
-        window: $.__views.__alloyId10,
+        window: $.__views.__alloyId14,
         id: "tvl",
         title: "Label"
     });
-    __alloyId9.push($.__views.tvl);
+    __alloyId13.push($.__views.tvl);
     $.__views.tvw = Ti.UI.createWindow({
         id: "tvw",
         title: "Tweets"
@@ -45,9 +45,9 @@ function Controller() {
         id: "tvt",
         title: "My Tweets"
     });
-    __alloyId9.push($.__views.tvt);
+    __alloyId13.push($.__views.tvt);
     $.__views.index = Ti.UI.createTabGroup({
-        tabs: __alloyId9,
+        tabs: __alloyId13,
         id: "index"
     });
     $.__views.index && $.addTopLevelView($.__views.index);

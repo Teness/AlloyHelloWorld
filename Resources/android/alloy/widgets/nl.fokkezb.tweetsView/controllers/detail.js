@@ -8,6 +8,7 @@ function Controller() {
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    function myLoader() {}
     function onEndCommentLoader(e) {
         setTimeout(function() {
             Ti.API.info("onEndLoading");
@@ -126,6 +127,11 @@ function Controller() {
         id: "time"
     });
     $.__views.wrapper.add($.__views.time);
+    $.__views.ptr = Alloy.createWidget("nl.fokkezb.pullToRefresh", "widget", {
+        id: "ptr",
+        __parentSymbol: __parentSymbol
+    });
+    myLoader ? $.__views.ptr.on("release", myLoader) : __defers["$.__views.ptr!release!myLoader"] = true;
     $.__views.isComment = Alloy.createWidget("nl.fokkezb.infiniteScroll", "widget", {
         id: "isComment",
         __parentSymbol: __parentSymbol
@@ -136,6 +142,12 @@ function Controller() {
         right: 10,
         bottom: 0,
         left: 10,
+        headerPullView: $.__views.ptr.getProxyPropertyEx("headerPullView", {
+            recurse: true
+        }),
+        headerView: $.__views.ptr.getProxyPropertyEx("headerView", {
+            recurse: true
+        }),
         footerView: $.__views.isComment.getProxyPropertyEx("footerView", {
             recurse: true
         }),
@@ -161,7 +173,9 @@ function Controller() {
         data.push(Alloy.createWidget("nl.fokkezb.tweetsView", "row", comment).getView());
     });
     $.tableView.setData(data);
+    $.ptr.init($.tableView);
     $.isComment.init($.tableView);
+    __defers["$.__views.ptr!release!myLoader"] && $.__views.ptr.on("release", myLoader);
     __defers["$.__views.isComment!end!onEndCommentLoader"] && $.__views.isComment.on("end", onEndCommentLoader);
     _.extend($, exports);
 }
